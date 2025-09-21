@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const {getTime, getServerTime} = require('../controllers/serverTime');
+const {getServerTime} = require('../controllers/serverTime');
     
-router.get('/serverTime', getServerTime);
+router.get('/server-time', getServerTime);
 
 module.exports = router;

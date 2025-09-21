@@ -12,7 +12,7 @@ describe('getCurrentServerTime', () => {
 });
 
 // Checks for current server time
-describe('GET /serverTime', () => {
+describe('GET /server-time', () => {
     it('should return the current server time', async () => {
         const response = await request(app).get('/serverTime');
         console.log(response.text); // logging to check
