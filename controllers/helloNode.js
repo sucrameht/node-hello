@@ -1,5 +1,7 @@
+const path = require('path');
+
 const printHelloNode = (req, res) => {
-    res.send(`Hello Node!`);
+  res.sendFile(path.join(__dirname, '../views/helloNode.html'));
 };
 
 module.exports = {printHelloNode};
