@@ -1,0 +1,12 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "location": { "value": "southeastasia" },
+      "vmName": { "value": "node-hello-vm" },
+      "adminUsername": { "value": "<ADMIN_USER>" },
+      "sshKeyData": { "value": "<YOUR_SSH_KEY_DATA>"},
+      "vmSize": { "value": "Standard_B1s" }
+    }
+}
+  
