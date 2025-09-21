@@ -74,6 +74,21 @@ jobs:
               -p 127.0.0.1:3000:3000 \
               ${{env.IMAGE_NAME}}:latest
 
-            # Health check & reload nginx
-            curl -sf http://127.0.0.1:3000/ >/dev/null
+            # Health check with retry (up to ~30s)
+            for i in $(seq 1 15); do
+            if curl -fsS http://127.0.0.1:3000/ >/dev/null; then
+                echo "App is healthy"
+                break
+            fi
+            echo "Waiting for app to be ready ($i/15)..."
+            sleep 2
+            done
+
+            # If still not healthy, show logs and fail
+            if ! curl -fsS http://127.0.0.1:3000/ >/dev/null; then
+            echo "App failed. Recent logs:"
+            docker logs --tail=200 node-hello || true
+            exit 1
+            fi
+            
             sudo nginx -t && sudo systemctl reload nginx
