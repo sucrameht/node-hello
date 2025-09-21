@@ -14,7 +14,7 @@ describe('getCurrentServerTime', () => {
 // Checks for current server time
 describe('GET /server-time', () => {
     it('should return the current server time', async () => {
-        const response = await request(app).get('/serverTime');
+        const response = await request(app).get('/server-time');
         console.log(response.text); // logging to check
         expect(response.status).toBe(200);
         expect(response.text).toMatch("Current server time is");
@@ -23,7 +23,7 @@ describe('GET /server-time', () => {
     // Checks whether the server time is returned within 100ms
     it('should return the current server time within 100ms', async () => {
         const start = Date.now();
-        const response = await request(app).get('/serverTime');
+        const response = await request(app).get('/server-time');
         const end = Date.now();
         expect(response.status).toBe(200);
         expect(end - start).toBeLessThan(100);
@@ -31,7 +31,7 @@ describe('GET /server-time', () => {
 
     // Checks whether the server time returned is in the correct format
     it('should return the current server time in the correct format', async () => {
-        const response = await request(app).get('/serverTime');
+        const response = await request(app).get('/server-time');
         const responseText = response.text;
         
         const responseTime = responseText.replace("Current server time is ", "");
