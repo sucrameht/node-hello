@@ -11,6 +11,12 @@ app.use(helloNodeRoute);
 const serverTimeRoute = require('./routes/serverTime');
 app.use(serverTimeRoute);
 
+const getHealthRoute = require('./routes/health');
+app.use(getHealthRoute);
+
+const debug = require('./routes/debug');
+app.use(debug);
+
 // const server = http.createServer((req, res) => {
 //   res.statusCode = 200;
 //   const msg = 'Hello Node!\n'
