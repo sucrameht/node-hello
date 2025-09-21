@@ -43,3 +43,7 @@ describe('GET /serverTime', () => {
         expect(timeDifference).toBeLessThan(1000);
     });
 });
+
+afterAll(() => {
+    server.close();
+});
