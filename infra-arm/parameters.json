@@ -7,6 +7,6 @@
       "adminUsername": { "value": "<ADMIN_USER>" },
       "sshKeyData": { "value": "<YOUR_SSH_KEY_DATA>"},
       "vmSize": { "value": "Standard_B1s" }
-    }
+    }   
 }
   
