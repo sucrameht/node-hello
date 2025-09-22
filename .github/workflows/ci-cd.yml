@@ -2,7 +2,7 @@ name: CI/CD
 
 on:
   push:
-    branches: [ "marcusdev" ]
+    branches: [ "terraform" ]
   pull_request:
 
 env:
@@ -44,7 +44,7 @@ jobs:
 
   deploy:
     needs: build-test-lint
-    if: github.ref == 'refs/heads/marcusdev'
+    if: github.ref == 'refs/heads/terraform'
     runs-on: ubuntu-latest
     steps:
       - name: SSH into VM and deploy container
