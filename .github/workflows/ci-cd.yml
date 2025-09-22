@@ -50,7 +50,7 @@ jobs:
       - name: SSH into VM and deploy container
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{secrets.VM_HOST}}
+          host: ${{secrets.VM_HOST_TF}}
           username: ${{secrets.VM_USER}}
           key: ${{secrets.SSH_PRIVATE_KEY}}
           script: |
