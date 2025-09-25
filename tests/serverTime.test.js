@@ -14,11 +14,12 @@ describe('getCurrentServerTime', () => {
 // Checks for current server time
 describe('GET /server-time', () => {
     it('should return the current server time', async () => {
-        const response = await request(app).get('/server-time');
-        console.log(response.text); // logging to check
-        expect(response.status).toBe(200);
-        expect(response.text).toMatch("Current server time is");
-    });
+        const res = await request(app).get('/server-time');
+        expect(res.status).toBe(200);
+        expect(res.headers['content-type']).toMatch(/application\/json/);
+        expect(res.body).toHaveProperty('nowUtcIso');
+        expect(res.body).toHaveProperty('epochMs');
+      });
 
     // Checks whether the server time is returned within 100ms
     it('should return the current server time within 100ms', async () => {
@@ -32,11 +33,14 @@ describe('GET /server-time', () => {
     // Checks whether the server time returned is in the correct format
     it('should return the current server time in the correct format', async () => {
         const response = await request(app).get('/server-time');
-        const responseText = response.text;
+        // const responseText = response.text;
         
-        const responseTime = responseText.replace("Current server time is ", "");
-        const parsedDate = new Date(responseTime);
+        const { nowUtcIso, epochMs } = response.body;
+        const parsedDate = new Date(nowUtcIso);
 
+        expect(response.headers['content-type']).toMatch(/application\/json/);
+        expect(typeof response.body.nowUtcIso).toBe('string');
+        expect(typeof response.body.epochMs).toBe('number');
         expect(response.status).toBe(200);
         expect(parsedDate.toString()).not.toBe('Invalid Date');
         const timeDifference = Math.abs(parsedDate - new Date());
