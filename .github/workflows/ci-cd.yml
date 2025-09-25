@@ -25,13 +25,14 @@ jobs:
           cache: npm
       
       - name: Validate registry/image name
+        shell: bash
         run: |
           set -euo pipefail
-          case "${IMAGE_NAME}" in
-            ${REGISTRY/*} ;;
-            *) echo "ERROR: IMAGE_NAME must start with ${REGISTRY}/"; exit 1 ;;
-          esac
-
+          if [[ "${IMAGE_NAME}" != "${REGISTRY}/"* ]]; then
+            echo "ERROR: IMAGE_NAME must start with ${REGISTRY}/"
+            exit 1
+          fi
+        
       - name: Install deps
         run: npm ci
 
