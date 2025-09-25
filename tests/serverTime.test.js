@@ -48,6 +48,26 @@ describe('GET /server-time', () => {
     });
 });
 
+describe('GET /health', () => {
+    it('GET /health should return ok', async () => {
+        await request(app).get('/health')
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .expect(({ body }) => expect(body.status).toBe('OK'));
+      });
+      
+})
+
+describe('GET /debug', () => {
+    it('GET /debug should return ok', async () => {
+        await request(app).get('/debug')
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .expect(({ body }) => expect(body.status).toBe('OK'));
+      });
+      
+})
+
 afterAll(() => {
     server.close();
 });
