@@ -5,6 +5,10 @@ on:
     branches: [ "terraform" ]
   pull_request:
 
+permissions:
+  contents: read
+  packages: write
+
 env:
   REGISTRY: ${{secrets.REGISTRY}}
   IMAGE_NAME: ${{secrets.IMAGE_NAME}}
@@ -18,6 +22,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: npm
+      
+      - name: Validate registry/image name
+        run: |
+          set -euo pipefail
+          case "${IMAGE_NAME}" in
+            ${REGISTRY/*} ;;
+            *) echo "ERROR: IMAGE_NAME must start with ${REGISTRY}/"; exit 1 ;;
+          esac
 
       - name: Install deps
         run: npm ci
