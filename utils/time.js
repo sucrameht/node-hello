@@ -1,5 +1,5 @@
 function getCurrentServerTime() {
-    return new Date().toLocaleString();
+    return new Date().toISOString();
 }
 
 module.exports = {getCurrentServerTime};

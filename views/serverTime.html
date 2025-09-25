@@ -1,0 +1,45 @@
+<p id="utcLine">UTC</p>
+
+<label for="tz">Select timezone:</label>
+<select id="tz"></select>
+
+<p id="timeDisplay">Timezone Time</p>
+
+<script>
+(async function () {
+  const r = await fetch('/server-time');
+  const {nowUtcIso} = await r.json();
+  const instant = new Date(nowUtcIso);
+
+  const utcFriendly = new Intl.DateTimeFormat(undefined, {
+    timeZone: 'UTC',
+    year: 'numeric', month: 'short', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit'
+  }).format(instant);
+  document.getElementById('utcLine').textContent =
+    `Server time (UTC): ${utcFriendly}`;
+
+  const zones = (typeof Intl.supportedValuesOf === 'function')
+    ? Intl.supportedValuesOf('timeZone')
+    : ['UTC','Asia/Singapore','Asia/Tokyo','Europe/London','America/New_York'];
+
+  const sel = document.getElementById('tz');
+  zones.forEach(z => sel.add(new Option(z, z)));
+
+  const guessed = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+  sel.value = zones.includes(guessed) ? guessed : 'UTC';
+
+  const out = document.getElementById('timeDisplay');
+  function render(zone) {
+    const fmt = new Intl.DateTimeFormat(undefined, {
+      timeZone: zone,
+      year: 'numeric', month: 'short', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+    out.textContent = `Server time in ${zone}: ${fmt.format(instant)}`;
+  }
+
+  render(sel.value);
+  sel.addEventListener('change', () => render(sel.value));
+  })();
+</script>
