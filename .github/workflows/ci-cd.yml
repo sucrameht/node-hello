@@ -48,13 +48,25 @@ jobs:
           registry: ${{env.REGISTRY}}
           username: ${{secrets.REGISTRY_USERNAME}}
           password: ${{secrets.REGISTRY_TOKEN}}
+    
+      - name: Extract metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest
+            type=sha
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
 
       - name: Build & push image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ env.IMAGE_NAME }}:latest
+          tags: ${{steps.meta.outputs.tags}}
+          labels: ${{steps.meta.outputs.labels}}
 
   deploy:
     needs: build-test-lint
